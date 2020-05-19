@@ -3,6 +3,8 @@ import './App.css'
 import { Route } from 'react-router';
 import Routes from '../components/Routes'
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 const App = () => (
   <main className="App">
     <Routes />
