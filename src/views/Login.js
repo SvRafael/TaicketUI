@@ -1,34 +1,33 @@
-import React from 'react'
-import axios from 'axios'
+import React from "react";
 
-import {ErrorMessage, Formik, Form, Field} from 'formik'
-import * as yup from 'yup'
+import { Container, Form, Button } from "react-bootstrap";
 
 const Login = () => {
-    const handleSubmit = values => console.log(values)
-    const validations = yup.object().shape({
-        email: yup.string().email().required(),
-        password: yup.string().min(8).required()
-    })
-    return(
-        <>
-        <h1>Login</h1>
-        <p>Teste</p>
-        <Formik initialValues={{}} onSubmit={handleSubmit} validationSchema={validations}>
-            <Form className="Form">
-                <div className="Form-Group">
-                    <Field name="email" className="Form-Field"/>
-                    <ErrorMessage name="email" component="span" className="Form-Error"></ErrorMessage>
-                </div>
-                <div className="Form-Group">
-                    <Field name="password" className="Form-Field"/>
-                    <ErrorMessage name="password" component="span" className="Form-Error"></ErrorMessage>
-                </div>
-                <button className="Form-Btn" type="submit">Login</button>
-            </Form>
-        </Formik>
-    </>
-    )
-}
+  return (
+    <Container>
+      <p className="h1 my-4">Login</p>
 
-export default Login
+      <Form>
+        <Form.Group>
+          <Form.Label>Email</Form.Label>
+          <Form.Control type="email" placeholder="Informe seu email" />
+        </Form.Group>
+
+        <Form.Group>
+          <Form.Label>Senha</Form.Label>
+          <Form.Control type="password" placeholder="Informe sua senha" />
+        </Form.Group>
+
+        <Button variant="primary" type="submit" block>
+          Entrar
+        </Button>
+
+        <Button variant="secondary" block>
+          Cadastrar
+        </Button>
+      </Form>
+    </Container>
+  );
+};
+
+export default Login;
