@@ -1,33 +1,76 @@
-import React from "react";
-
+import React, {useState} from "react";
+import axios from 'axios';
 import { Container, Form, Button } from "react-bootstrap";
+import TextField from '@material-ui/core/TextField'
 
-const Register = () => {
-  return (
-    <Container>
-      <p className="h1 my-4">Register</p>
+export default function Cadastrar(){
+  const [nome, setNome] = useState('');
+  const [email, setEmail] = useState('');
+  const [cnpj, setCNPJ] = useState('');
+  const [cpf, setCPF] = useState('');
+  const [nomeFantasia, setNomeFantasia] = useState('');
+  const [password, setPassword] = useState('');
 
-      <Form>
-        <Form.Group>
-          <Form.Label>Email</Form.Label>
-          <Form.Control type="email" placeholder="Informe seu email" />
-        </Form.Group>
+ function handleSubmit(){
+    const data = {
+      name: nome, 
+      email: email,
+      cpf: cpf,  
+      cnpj: cnpj,
+      fantasyName: nomeFantasia,
+      password: password}
+      console.log(data);
 
-        <Form.Group>
-          <Form.Label>Senha</Form.Label>
-          <Form.Control type="password" placeholder="Informe sua senha" />
-        </Form.Group>
+      axios.post('http://localhost:3000/api/auth/register', data);
 
-        <Button variant="primary" type="submit" block>
-          Entrar
-        </Button>
+      
+  }
 
-        <Button variant="secondary" block>
-          Cadastrar
-        </Button>
-      </Form>
-    </Container>
-  );
-};
 
-export default Register;
+    return (
+      <Container >
+          <p className="h1 my-4 divPages">Register</p>
+        <Form>
+          <Form.Group>
+          <Form.Label>Nome</Form.Label>
+            <Form.Control type="text" placeholder="Informe o nome" value={nome} onChange={e => setNome(e.target.value)}/>
+          </Form.Group>
+  
+          <Form.Group>
+            <Form.Label>Email</Form.Label>
+            <Form.Control type="email" placeholder="Informe o email" value={email} onChange ={e => setEmail(e.target.value)}/>
+          </Form.Group>
+  
+          <Form.Group>
+            <Form.Label>CPF</Form.Label>
+            <Form.Control type="text" placeholder="Informe o CPF" value={cpf} onChange ={e => setCPF(e.target.value)}/>
+          </Form.Group>        
+  
+          <Form.Group>
+            <Form.Label>CNPJ</Form.Label>
+            <Form.Control type="text" placeholder="Informe o CNPJ" value={cnpj} onChange ={e => setCNPJ(e.target.value)}/>
+          </Form.Group>
+  
+          <Form.Group>
+            <Form.Label>Nome Fantasia</Form.Label>
+            <Form.Control type="text" placeholder="Informe o nome fantasia" value={nomeFantasia} onChange ={e => setNomeFantasia(e.target.value)}/>
+          </Form.Group>               
+  
+          <Form.Group>
+            <Form.Label>Senha</Form.Label>
+            <Form.Control type="password" placeholder="Informe a senha" value={password} onChange ={e => setPassword(e.target.value)}/>
+          </Form.Group>
+  
+          <Button variant="secondary" block onClick={handleSubmit}>
+            Cadastrar
+          </Button>
+  
+          <br></br>
+        </Form>
+      </Container>
+    );
+  
+  
+}
+
+
