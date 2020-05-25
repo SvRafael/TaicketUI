@@ -4,10 +4,18 @@ import Routes from "./../components/Routes";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const App = () => (
-  <main className="App">
-    <Routes />
-  </main>
-);
+import { AuthContext } from "./../contexts";
+
+const App = () => {
+  const [company, setCompany] = React.useState(null);
+
+  return (
+    <main className="App">
+      <AuthContext.Provider value={{ company, setCompany }}>
+        <Routes />
+      </AuthContext.Provider>
+    </main>
+  );
+};
 
 export default App;
