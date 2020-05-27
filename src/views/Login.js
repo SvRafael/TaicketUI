@@ -1,6 +1,7 @@
 import React from "react";
 
 import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
 
 import { Container, Form, Button } from "react-bootstrap";
 
@@ -66,13 +67,21 @@ const Login = () => {
           />
         </Form.Group>
 
-        <Button type="submit" variant="primary" disabled={isLoading} block>
+        <Button
+          type="submit"
+          variant="primary"
+          className="mb-2"
+          disabled={isLoading}
+          block
+        >
           {isLoading ? "Carregando..." : "Entrar"}
         </Button>
 
-        <Button variant="secondary" block>
-          Cadastrar
-        </Button>
+        <Link to="/register" className="text-decoration-none">
+          <Button variant="secondary" block>
+            Cadastrar
+          </Button>
+        </Link>
       </Form>
     </Container>
   );

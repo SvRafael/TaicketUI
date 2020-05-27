@@ -1,16 +1,26 @@
-import React, { useState } from "react";
+import React from "react";
+
+import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
 import axios from "axios";
+
 import { Container, Form, Button } from "react-bootstrap";
 
 export default function Cadastrar() {
-  const [nome, setNome] = useState("");
-  const [email, setEmail] = useState("");
-  const [cnpj, setCNPJ] = useState("");
-  const [cpf, setCPF] = useState("");
-  const [nomeFantasia, setNomeFantasia] = useState("");
-  const [password, setPassword] = useState("");
+  const history = useHistory();
+  const [nome, setNome] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [cnpj, setCNPJ] = React.useState("");
+  const [cpf, setCPF] = React.useState("");
+  const [nomeFantasia, setNomeFantasia] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [isLoading, setIsLoading] = React.useState(false);
 
-  function handleSubmit() {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    setIsLoading(true);
+
     const data = {
       name: nome,
       email: email,
@@ -19,15 +29,19 @@ export default function Cadastrar() {
       fantasyName: nomeFantasia,
       password: password,
     };
-    console.log(data);
 
-    axios.post("http://localhost:3000/api/auth/register", data);
-  }
+    await axios.post("http://localhost:3000/api/auth/register", data);
+
+    setIsLoading(false);
+
+    alert("Cadastrado com sucesso!");
+    history.push("/login");
+  };
 
   return (
     <Container>
       <p className="h1 my-4 divPages">Register</p>
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <Form.Group>
           <Form.Label>Nome</Form.Label>
           <Form.Control
@@ -35,6 +49,7 @@ export default function Cadastrar() {
             placeholder="Informe o nome"
             value={nome}
             onChange={(e) => setNome(e.target.value)}
+            required
           />
         </Form.Group>
 
@@ -45,6 +60,7 @@ export default function Cadastrar() {
             placeholder="Informe o email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
         </Form.Group>
 
@@ -55,6 +71,7 @@ export default function Cadastrar() {
             placeholder="Informe o CPF"
             value={cpf}
             onChange={(e) => setCPF(e.target.value)}
+            required
           />
         </Form.Group>
 
@@ -65,6 +82,7 @@ export default function Cadastrar() {
             placeholder="Informe o CNPJ"
             value={cnpj}
             onChange={(e) => setCNPJ(e.target.value)}
+            required
           />
         </Form.Group>
 
@@ -75,6 +93,7 @@ export default function Cadastrar() {
             placeholder="Informe o nome fantasia"
             value={nomeFantasia}
             onChange={(e) => setNomeFantasia(e.target.value)}
+            required
           />
         </Form.Group>
 
@@ -85,14 +104,25 @@ export default function Cadastrar() {
             placeholder="Informe a senha"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
         </Form.Group>
 
-        <Button variant="secondary" block onClick={handleSubmit}>
-          Cadastrar
+        <Button
+          type="submit"
+          variant="primary"
+          className="mb-2"
+          disabled={isLoading}
+          block
+        >
+          {isLoading ? "Carregando..." : "Cadastrar"}
         </Button>
 
-        <br></br>
+        <Link to="/login" className="text-decoration-none">
+          <Button variant="secondary" className="mb-2" block>
+            Login
+          </Button>
+        </Link>
       </Form>
     </Container>
   );
