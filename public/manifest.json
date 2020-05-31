@@ -1,0 +1,7 @@
+{
+    "name": "Taicket",
+    "short_name": "Taicket",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#fff"
+}
