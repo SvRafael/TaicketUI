@@ -40,7 +40,7 @@ export default function Cadastrar() {
 
   return (
     <Container>
-      <p className="h1 my-4 divPages">Register</p>
+      <p className="h1 my-4">Register</p>
       <Form onSubmit={handleSubmit}>
         <Form.Group>
           <Form.Label>Nome</Form.Label>

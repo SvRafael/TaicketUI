@@ -1,12 +1,18 @@
 import React from "react";
 
+import { useHistory } from "react-router";
 import moment from "moment";
+
 import service from "./../service";
 
-import { Card, ListGroup, ListGroupItem, Button } from "react-bootstrap";
+import { Card, Button } from "react-bootstrap";
 
 const CardEvent = ({ event, onDelete = () => {}, ...rest }) => {
-  const handleClickView = (e) => {};
+  const history = useHistory();
+
+  const handleClickView = (e) => {
+    history.push(`/events/${event._id}`);
+  };
 
   const handleClickDelete = async (e) => {
     const response = window.confirm("Deseja remover este evento?");
@@ -25,15 +31,6 @@ const CardEvent = ({ event, onDelete = () => {}, ...rest }) => {
           {moment(event.initialDate).format("DD/MM/YYYY HH:mm")}
         </Card.Text>
       </Card.Body>
-
-      {/* <ListGroup className="list-group-flush">
-        <ListGroupItem>Estado: {event.state}</ListGroupItem>
-        <ListGroupItem>Cidade: {event.city}</ListGroupItem>
-        <ListGroupItem>
-          Endereço: {event.street}, {event.number}
-        </ListGroupItem>
-      </ListGroup> */}
-
       <Card.Footer>
         <Button variant="primary" block onClick={handleClickView}>
           Visualizar

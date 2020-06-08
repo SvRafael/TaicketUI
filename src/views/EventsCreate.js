@@ -7,7 +7,7 @@ import axios from "axios";
 import { Form, Button } from "react-bootstrap";
 import { Layout } from "./../components";
 
-export default function Cadastrar() {
+const EventsCreate = () => {
   const history = useHistory();
   const [name, setName] = React.useState("");
   const [initialDate, setInitialDate] = React.useState("");
@@ -15,7 +15,6 @@ export default function Cadastrar() {
   const [city, setCity] = React.useState("");
   const [street, setStreet] = React.useState("");
   const [number, setNumber] = React.useState("");
-  const [company, setCompany] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
 
   const handleSubmit = async (event) => {
@@ -30,7 +29,6 @@ export default function Cadastrar() {
       city: city,
       street: street,
       number: number,
-      company: company,
     };
 
     await axios.post("http://localhost:3000/api/events", data, {
@@ -40,12 +38,13 @@ export default function Cadastrar() {
     setIsLoading(false);
 
     alert("Evento criado com sucesso!");
-    history.push("/home");
+    history.push("/events");
   };
 
   return (
     <Layout>
-      <p className="h1 my-4 divPages">Cadastro de Eventos</p>
+      <p className="h4">Cadastro de Evento</p>
+
       <Form onSubmit={handleSubmit}>
         <Form.Group>
           <Form.Label>Nome</Form.Label>
@@ -61,7 +60,7 @@ export default function Cadastrar() {
         <Form.Group>
           <Form.Label>Data de Inicio</Form.Label>
           <Form.Control
-            type="date"
+            type="datetime-local"
             placeholder="Informe a data de inicio"
             value={initialDate}
             onChange={(e) => setInitialDate(e.target.value)}
@@ -123,12 +122,14 @@ export default function Cadastrar() {
           {isLoading ? "Carregando..." : "Criar Evento"}
         </Button>
 
-        <Link to="/ticket" className="text-decoration-none">
+        <Link to="/events" className="text-decoration-none">
           <Button variant="secondary" className="mb-2" block>
-            Criar Ingresso
+            Cancelar
           </Button>
         </Link>
       </Form>
     </Layout>
   );
-}
+};
+
+export default EventsCreate;

@@ -1,16 +1,18 @@
 import React from "react";
 
-import { useHistory } from "react-router";
+import { useHistory, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-import { Container, Form, Button } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 
-export default function Cadastrar() {
+import { Layout } from "./../components";
+
+const TicketsCreate = () => {
   const history = useHistory();
+  const params = useParams();
   const [name, setName] = React.useState("");
   const [value, setValue] = React.useState("");
-  const [event, setEvent] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
 
   const handleSubmit = async (event) => {
@@ -18,23 +20,26 @@ export default function Cadastrar() {
 
     setIsLoading(true);
 
-    const data = {
-      name: name,
-      value: value,
-      event: event,
-    };
-
-    await axios.post("http://localhost:3000/api/events/:id/ticket", data);
+    await axios.post(
+      `http://localhost:3000/api/events/${params.id}/tickets`,
+      {
+        name,
+        value,
+      },
+      { headers: { authorization: localStorage.getItem("token") } }
+    );
 
     setIsLoading(false);
 
     alert("Ingresso criado com sucesso!");
-    history.push("/home");
+
+    history.push(`/events/${params.id}`);
   };
 
   return (
-    <Container>
-      <p className="h1 my-4 divPages">Cadastro de Ingressos</p>
+    <Layout>
+      <p className="h4">Cadastro de Ingressos</p>
+
       <Form onSubmit={handleSubmit}>
         <Form.Group>
           <Form.Label>Nome</Form.Label>
@@ -47,7 +52,6 @@ export default function Cadastrar() {
           />
         </Form.Group>
 
-      
         <Form.Group>
           <Form.Label>Preço</Form.Label>
           <Form.Control
@@ -69,12 +73,17 @@ export default function Cadastrar() {
           {isLoading ? "Carregando..." : "Criar Ingresso"}
         </Button>
 
-        {/* <Link to="/login" className="text-decoration-none">
-          <Button variant="secondary" className="mb-2" block>
-            Criar Ingresso
-          </Button>
-        </Link> */}
+        <Link
+          to={`/events/${params.id}`}
+          component={Button}
+          variant="secondary"
+          block
+        >
+          Cancelar
+        </Link>
       </Form>
-    </Container>
+    </Layout>
   );
-}
+};
+
+export default TicketsCreate;

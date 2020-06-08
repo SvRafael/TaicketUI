@@ -1,11 +1,11 @@
 import authApi from "./authApi";
 
-const get = (...options) => {
-  return authApi.get("/events", ...options);
+const get = ({ id, ...options } = { id: "" }) => {
+  return authApi.get(`/events/${id}`, options);
 };
 
-const remove = ({ id }) => {
-  return authApi.delete(`/events/${id}`);
+const remove = ({ id, ...options }) => {
+  return authApi.delete(`/events/${id}`, options);
 };
 
 export default {

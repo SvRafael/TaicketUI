@@ -2,6 +2,8 @@ import React from "react";
 
 import { Layout, CardEvent } from "./../components";
 import service from "./../service";
+import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const Events = () => {
   const [deleteCounter, setDeleteCounter] = React.useState(0);
@@ -22,31 +24,37 @@ const Events = () => {
   }, [deleteCounter]);
 
   const handleDelete = () => {
-    setDeleteCounter((deleteCounter) => deleteCounter++);
+    setDeleteCounter((deleteCounter) => deleteCounter + 1);
   };
-
-  if (isLoadingEvents) {
-    return (
-      <Layout>
-        <h4 className="h4">Eventos</h4>
-
-        <p>Carregando...</p>
-      </Layout>
-    );
-  }
 
   return (
     <Layout>
       <h4 className="h4">Eventos</h4>
 
-      {events.map((event) => (
-        <CardEvent
-          className="mb-2"
-          event={event}
-          key={event._id}
-          onDelete={handleDelete}
-        />
-      ))}
+      <Link
+        to="/events/create"
+        component={Button}
+        variant="primary"
+        className="mb-2"
+        block
+      >
+        Criar evento
+      </Link>
+
+      {isLoadingEvents ? (
+        <p>Carregando...</p>
+      ) : !events.length ? (
+        <p>Nenhum evento encontrado</p>
+      ) : (
+        events.map((event) => (
+          <CardEvent
+            className="mb-2"
+            event={event}
+            key={event._id}
+            onDelete={handleDelete}
+          />
+        ))
+      )}
     </Layout>
   );
 };

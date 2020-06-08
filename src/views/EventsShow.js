@@ -1,35 +1,49 @@
 import React from "react";
 
-import { Layout, CardEvent } from "./../components";
+import { useParams } from "react-router";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import moment from "moment";
+
+import { Card, ListGroup, ListGroupItem, Button } from "react-bootstrap";
+
+import { Layout } from "./../components";
 import service from "./../service";
 
-const Events = () => {
-  const [deleteCounter, setDeleteCounter] = React.useState(0);
-  const [events, setEvents] = React.useState([]);
+const EventsShow = () => {
+  const params = useParams();
+  const [event, setEvent] = React.useState(null);
+  const [tickets, setTickets] = React.useState([]);
   const [isLoadingEvents, setIsLoadingEvents] = React.useState(true);
 
   React.useEffect(() => {
-    const loadLatetsEvents = async () => {
+    const loadEvents = async () => {
       setIsLoadingEvents(true);
 
-      const response = await service.events.get();
+      const response = await service.events.get({ id: params.id });
 
-      setEvents(response.data.events || []);
+      setEvent(response.data.event || null);
       setIsLoadingEvents(false);
     };
 
-    loadLatetsEvents();
-  }, [deleteCounter]);
+    const loadTickets = async () => {
+      const response = await axios.get(
+        `http://localhost:3000/api/events/${params.id}/tickets`,
+        { headers: { authorization: localStorage.getItem("token") } }
+      );
 
-  const handleDelete = () => {
-    setDeleteCounter((deleteCounter) => deleteCounter++);
-  };
+      setTickets(response.data.ticket);
+    };
+
+    loadEvents();
+    loadTickets();
+  }, [params.id]);
+
+  const handleClickShare = () => {};
 
   if (isLoadingEvents) {
     return (
       <Layout>
-        <h4 className="h4">Eventos</h4>
-
         <p>Carregando...</p>
       </Layout>
     );
@@ -37,18 +51,59 @@ const Events = () => {
 
   return (
     <Layout>
-      <h4 className="h4">Eventos</h4>
+      <h4 className="h4">{event.name}</h4>
 
-      {events.map((event) => (
-        <CardEvent
-          className="mb-2"
-          event={event}
-          key={event._id}
-          onDelete={handleDelete}
-        />
-      ))}
+      <Card className="mb-4">
+        <ListGroup className="list-group-flush">
+          <ListGroupItem>
+            Data e Hora: {moment(event.initialDate).format("DD/MM/YYYY HH:mm")}
+          </ListGroupItem>
+          <ListGroupItem>Estado: {event.state}</ListGroupItem>
+          <ListGroupItem>Cidade: {event.city}</ListGroupItem>
+          <ListGroupItem>
+            Endereço: {event.street}, {event.number}
+          </ListGroupItem>
+        </ListGroup>
+      </Card>
+
+      <h4 className="h4">Ingressos</h4>
+
+      <Card className="mb-2">
+        <ListGroup className="list-group-flush">
+          {tickets.map((ticket) => (
+            <ListGroupItem>
+              {ticket.name} -{" "}
+              {ticket.value.toLocaleString("pt-br", {
+                style: "currency",
+                currency: "BRL",
+              })}
+            </ListGroupItem>
+          ))}
+        </ListGroup>
+      </Card>
+
+      <Link
+        to={`/events/${event._id}/tickets/create`}
+        component={Button}
+        variant="primary"
+        block
+      >
+        Adicionar ingresso
+      </Link>
+      <Button variant="outline-primary" block onClick={handleClickShare}>
+        Compartilhar evento
+      </Button>
+      <Link
+        to="/events"
+        component={Button}
+        variant="secondary"
+        className="mb-2"
+        block
+      >
+        Voltar
+      </Link>
     </Layout>
   );
 };
 
-export default Events;
+export default EventsShow;

@@ -5,9 +5,10 @@ import { history } from "../history";
 import Home from "../views/Home";
 import Login from "../views/Login";
 import Register from "../views/Register";
-import Event from "../views/Event";
+import EventsCreate from "../views/EventsCreate";
 import Events from "../views/Events";
-import Ticket from "../views/Ticket";
+import EventsShow from "../views/EventsShow";
+import TicketsCreate from "../views/TicketsCreate";
 import NotFound from "./NotFound";
 
 const Routes = () => (
@@ -18,8 +19,13 @@ const Routes = () => (
       <Route component={Register} path="/register" exact />
       <Route component={Home} path="/home" exact />
       <Route component={Events} path="/events" exact />
-      <Route component={Event} path="/events/create" exact />
-      <Route component={Ticket} path="/ticket" exact />
+      <Route component={EventsCreate} path="/events/create" exact />
+      <Route component={EventsShow} path="/events/:id" exact />
+      <Route
+        component={TicketsCreate}
+        path="/events/:id/tickets/create"
+        exact
+      />
       <Route component={NotFound} path="*" />
     </Switch>
   </Router>
