@@ -4,7 +4,8 @@ import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-import { Container, Form, Button } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
+import { Layout } from "./../components";
 
 export default function Cadastrar() {
   const history = useHistory();
@@ -32,7 +33,9 @@ export default function Cadastrar() {
       company: company,
     };
 
-    await axios.post("http://localhost:3000/api/events", data);
+    await axios.post("http://localhost:3000/api/events", data, {
+      headers: { authorization: localStorage.getItem("token") },
+    });
 
     setIsLoading(false);
 
@@ -41,7 +44,7 @@ export default function Cadastrar() {
   };
 
   return (
-    <Container>
+    <Layout>
       <p className="h1 my-4 divPages">Cadastro de Eventos</p>
       <Form onSubmit={handleSubmit}>
         <Form.Group>
@@ -86,7 +89,7 @@ export default function Cadastrar() {
             onChange={(e) => setCity(e.target.value)}
             required
           />
-        </Form.Group>        
+        </Form.Group>
 
         <Form.Group>
           <Form.Label>Rua</Form.Label>
@@ -126,6 +129,6 @@ export default function Cadastrar() {
           </Button>
         </Link>
       </Form>
-    </Container>
+    </Layout>
   );
 }
