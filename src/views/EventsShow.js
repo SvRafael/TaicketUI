@@ -39,7 +39,13 @@ const EventsShow = () => {
     loadTickets();
   }, [params.id]);
 
-  const handleClickShare = () => {};
+  const handleClickShare = () => {
+    window.navigator.clipboard.writeText(
+      `http://localhost:3001/sales/events/${event._id}`
+    );
+
+    alert("Link do evento copiado!");
+  };
 
   if (isLoadingEvents) {
     return (
