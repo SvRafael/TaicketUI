@@ -51,9 +51,9 @@ const Home = () => {
         datasets: [
           {
             label: "Vendas por evento",
-            backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+            backgroundColor: "#FF6384",
             borderWidth: 1,
-            hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+            hoverBackgroundColor: "#FF6384",
             data,
           },
         ],
