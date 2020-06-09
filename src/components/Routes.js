@@ -8,6 +8,7 @@ import Register from "../views/Register";
 import EventsCreate from "../views/EventsCreate";
 import Events from "../views/Events";
 import EventsShow from "../views/EventsShow";
+import EventsSale from "../views/EventsSale";
 import TicketsCreate from "../views/TicketsCreate";
 import NotFound from "./NotFound";
 
@@ -21,6 +22,7 @@ const Routes = () => (
       <Route component={Events} path="/events" exact />
       <Route component={EventsCreate} path="/events/create" exact />
       <Route component={EventsShow} path="/events/:id" exact />
+      <Route component={EventsSale} path="/sales/events/:id" exact />
       <Route
         component={TicketsCreate}
         path="/events/:id/tickets/create"
